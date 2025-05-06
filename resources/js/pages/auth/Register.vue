@@ -7,12 +7,20 @@ import { Label } from '@/components/ui/label';
 import AuthBase from '@/layouts/AuthLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import { LoaderCircle } from 'lucide-vue-next';
+import { Role } from '@/types';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+
+const props = defineProps<{
+    roles: Role[];
+}>();
+
 
 const form = useForm({
     name: '',
     email: '',
     password: '',
     password_confirmation: '',
+    role_id: null,
 });
 
 const submit = () => {
@@ -68,7 +76,22 @@ const submit = () => {
                     <InputError :message="form.errors.password_confirmation" />
                 </div>
 
-                <Button type="submit" class="mt-2 w-full" tabindex="5" :disabled="form.processing">
+                <div class="grid gap-2">
+                    <Label for="role">Role</Label>
+                    <Select id="role" v-model="form.role_id">
+                        <SelectTrigger class="w-full" :tabindex="5">
+                            <SelectValue placeholder="Select Role" />
+                        </SelectTrigger>
+                        <SelectContent class="w-full">
+                            <SelectItem v-if="roles" v-for="role in roles" :key="role.id" :value="role.id">
+                                {{ role.name }}
+                            </SelectItem>
+                        </SelectContent>
+                    </Select>
+                    <InputError :message="form.errors.role_id" />
+                </div>
+
+                <Button type="submit" class="mt-2 w-full" tabindex="6" :disabled="form.processing">
                     <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" />
                     Create account
                 </Button>
@@ -76,7 +99,7 @@ const submit = () => {
 
             <div class="text-center text-sm text-muted-foreground">
                 Already have an account?
-                <TextLink :href="route('login')" class="underline underline-offset-4" :tabindex="6">Log in</TextLink>
+                <TextLink :href="route('login')" class="underline underline-offset-4" :tabindex="7">Log in</TextLink>
             </div>
         </form>
     </AuthBase>

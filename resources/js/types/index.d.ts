@@ -30,10 +30,16 @@ export interface User {
     id: number;
     name: string;
     email: string;
-    avatar?: string;
     email_verified_at: string | null;
+    role_id: number;
+    role: Role
     created_at: string;
     updated_at: string;
+}
+
+export interface Role {
+    id: number;
+    name: string;
 }
 
 export type BreadcrumbItemType = BreadcrumbItem;
