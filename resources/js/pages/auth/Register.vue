@@ -7,20 +7,12 @@ import { Label } from '@/components/ui/label';
 import AuthBase from '@/layouts/AuthLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import { LoaderCircle } from 'lucide-vue-next';
-import { Role } from '@/types';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-
-const props = defineProps<{
-    roles: Role[];
-}>();
-
 
 const form = useForm({
     name: '',
     email: '',
     password: '',
     password_confirmation: '',
-    role_id: null,
 });
 
 const submit = () => {
@@ -74,21 +66,6 @@ const submit = () => {
                         placeholder="Confirm password"
                     />
                     <InputError :message="form.errors.password_confirmation" />
-                </div>
-
-                <div class="grid gap-2">
-                    <Label for="role">Role</Label>
-                    <Select id="role" v-model="form.role_id">
-                        <SelectTrigger class="w-full" :tabindex="5">
-                            <SelectValue placeholder="Select Role" />
-                        </SelectTrigger>
-                        <SelectContent class="w-full">
-                            <SelectItem v-if="roles" v-for="role in roles" :key="role.id" :value="role.id">
-                                {{ role.name }}
-                            </SelectItem>
-                        </SelectContent>
-                    </Select>
-                    <InputError :message="form.errors.role_id" />
                 </div>
 
                 <Button type="submit" class="mt-2 w-full" tabindex="6" :disabled="form.processing">
